@@ -2,7 +2,7 @@
 
 ## Context
 
-Set up the project scaffold for the vendor portal using the full tech stack with latest versions. Python 3.13 backend (FastAPI, uvicorn, aiosqlite, hatchling, uv), SvelteKit 2 + Svelte 5 frontend (adapter-static, @vite-pwa/sveltekit, marked), and shared tooling (Makefile, gitignore, directory structure).
+Set up the project scaffold for the pm-os using the full tech stack with latest versions. Python 3.13 backend (FastAPI, uvicorn, aiosqlite, hatchling, uv), SvelteKit 2 + Svelte 5 frontend (adapter-static, @vite-pwa/sveltekit, marked), and shared tooling (Makefile, gitignore, directory structure).
 
 ## Jobs to Be Done
 
