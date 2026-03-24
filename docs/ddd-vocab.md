@@ -52,7 +52,7 @@
 
 | Term | Status |
 |------|--------|
-| Skill, Rubric Dimension, Thought Leader Mapping, Skill Dependency | Iteration 01 |
-| Case Study, Case Type | Iteration 02 |
+| Skill, Rubric Dimension, Thought Leader Mapping, Skill Dependency | Done (Iteration 01) |
+| Case Study, Case Type | Done (Iteration 02) |
 | Curriculum Day, Phase, Lenny Resource, External Resource, Practice Day | Iteration 02 |
 | Dimension Score, Skill Progress, User State | Future |

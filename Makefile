@@ -1,4 +1,4 @@
-.PHONY: up down test-backend test-browser
+.PHONY: up down test test-backend test-browser
 
 up:
 	mkdir -p logs
@@ -10,6 +10,10 @@ up:
 down:
 	-pkill -f "uvicorn backend.src.main:app" 2>/dev/null || true
 	-pkill -f "vite" 2>/dev/null || true
+
+test:
+	mkdir -p logs
+	cd frontend && npx vitest run 2>&1 | tee ../logs/make-test.log
 
 test-backend:
 	mkdir -p logs
