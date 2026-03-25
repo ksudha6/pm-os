@@ -26,49 +26,53 @@ No adaptive engine yet, so `/practice` is a filterable case list.
 ## Tasks
 
 ### Layout & navigation
-- [ ] Nav bar with links: Dashboard, Practice, Progress
-- [ ] Current route highlighted
-- [ ] Layout wraps all routes
+- [x] Nav bar with links: Dashboard, Practice, Progress
+- [x] Current route highlighted
+- [x] Layout wraps all routes
 
 ### localStorage store
-- [ ] `user-state.svelte.ts` — persists `UserState` to localStorage
-- [ ] Initialize from localStorage on load, reset on corruption
-- [ ] Write on every state change
+- [x] `user-state.svelte.ts` — persists `UserState` to localStorage
+- [x] Initialize from localStorage on load, reset on corruption
+- [x] Write on every state change
 
 ### Dashboard (`/`)
-- [ ] 8 skill cards: name, weight, description, average score, attempts
-- [ ] Overall readiness score at top
-- [ ] Cards link to `/skill/[id]`
+- [x] 8 skill cards: name, weight, description, average score, attempts
+- [x] Overall readiness score at top
+- [x] Cards link to `/skill/[id]`
 
 ### Skill detail (`/skill/[id]`)
-- [ ] Skill definition, acid test, staff/principal focus
-- [ ] Rubric dimensions listed
-- [ ] Thought leader table
-- [ ] Case list for this skill with difficulty badges
+- [x] Skill definition, acid test, staff/principal focus
+- [x] Rubric dimensions listed
+- [x] Thought leader table
+- [x] Case list for this skill with difficulty badges
 
 ### Case list (`/practice`)
-- [ ] All 51 cases listed
-- [ ] Filter by skill
-- [ ] Each case links to `/practice/[caseId]`
+- [x] All 51 cases listed
+- [x] Filter by skill
+- [x] Each case links to `/practice/[caseId]`
 
 ### Skill detail cases link to `/practice/[caseId]`
 
 ### Case flow (`/practice/[caseId]`)
-- [ ] Block 1: prompt, difficulty, case type, time limit, hints toggle, skill tags. "Start Timer" button gates Block 2
-- [ ] Block 2: countdown timer (sticky), answer textarea, word count, "Submit" button. Auto-submits on timer expiry
-- [ ] Block 3: self-assessment — rubric dimensions with 1-5 score selectors. "Complete" saves scores and navigates to dashboard
+- [x] Block 1: prompt, difficulty, case type, time limit, hints toggle, skill tags. "Start Timer" button gates Block 2
+- [x] Block 2: countdown timer (sticky), answer textarea, word count, "Submit" button. Auto-submits on timer expiry
+- [x] Block 3: self-assessment — rubric dimensions with 1-5 score selectors. "Complete" saves scores and navigates to dashboard
 
 ### Progress (`/progress`)
-- [ ] Table: skill name, average score, attempts, trend, last practiced
+- [x] Table: skill name, average score, attempts, trend, last practiced
 
 ## Tests
 
 ### Scratch (Playwright)
-- [ ] Dashboard loads 8 skill cards with correct names and weights
-- [ ] Skill card click navigates to `/skill/[id]`
-- [ ] Skill detail shows rubric dimensions
-- [ ] Practice page lists cases, filter narrows results
-- [ ] Case flow: start timer, type answer, submit reveals self-assessment
-- [ ] Self-assessment saves scores, dashboard reflects updated scores
-- [ ] Navigation between all 5 routes works
-- [ ] State persists across page reload
+- [x] Dashboard loads 8 skill cards with correct names and weights
+- [x] Skill card click navigates to `/skill/[id]`
+- [x] Skill detail shows rubric dimensions
+- [x] Practice page lists cases, filter narrows results
+- [x] Case flow: start timer, type answer, submit reveals self-assessment
+- [x] Self-assessment saves scores, dashboard reflects updated scores
+- [x] Navigation between all 5 routes works
+- [x] State persists across page reload
+
+## Notes
+
+5 routes built: dashboard, skill detail, practice list, case flow, and progress. Nav with active-route highlighting wraps all pages. localStorage-backed user state persists scores across reloads. Case flow gates answer input behind a countdown timer and gates completion behind scoring all rubric dimensions. No new domain terms introduced beyond what was already in the vocab.
