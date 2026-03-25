@@ -3,15 +3,19 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from backend.src.db import init_schema
+from backend.src.routes.cases import router as cases_router
+from backend.src.seed import seed_cases
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_schema()
+    await seed_cases()
     yield
 
 
 app = FastAPI(lifespan=lifespan)
+app.include_router(cases_router)
 
 
 @app.get("/health")
