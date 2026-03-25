@@ -19,7 +19,9 @@
 | Case Type | The format of a case study. One of: product_design, product_improvement, product_strategy, metric_diagnosis, estimation, trade_off, go_to_market, stakeholder_influence, discovery_plan, technical_judgment, mock_interview. | Curriculum |
 | Curriculum Day | A single day in the 60-day program. Links a skill topic to a Lenny resource, an external resource, and a case study. Days 1-30 are Staff phase, 31-60 are Principal phase. Some days are practice days (heavier on case study). | Curriculum |
 | Phase | Staff (days 1-30) or Principal (days 31-60). Staff phase covers skills individually. Principal phase combines skills, increases ambiguity, and spans multiple products/teams. | Progression |
-| Dimension Score | A single score (1-5) on a rubric dimension for a specific case study attempt, timestamped. | Scoring |
+| Attempt | A user's answer to a case study. Records the answer text, start/submit times, and time spent. Links to eval scores and evaluations. | Scoring |
+| Evaluation | The full LLM evaluation response for an attempt. Stores raw response, model name, and token counts. One per attempt. | Scoring |
+| Dimension Score | A single score (1-5) on a rubric dimension for a specific attempt, timestamped. Each score has a source (llm or self). Both can coexist for the same attempt and dimension. | Scoring |
 | Skill Progress | Computed view of a skill's state: average score across its dimensions, total attempts, last practiced date, and trend (improving, stable, declining). | Scoring |
 | User State | The learner's current position: current day (1-60), all dimension scores, and per-day status (not_started, in_progress, completed). | Progression |
 | Skill Dependency | A directed relationship between skills. User Empathy feeds Product Sense, which feeds Strategy and Discovery. Discovery feeds Data Fluency. Data Fluency and Business Acumen feed Influence and Domain Depth. | Curriculum |
@@ -55,4 +57,5 @@
 | Skill, Rubric Dimension, Thought Leader Mapping, Skill Dependency | Done (Iteration 01) |
 | Case Study, Case Type | Done (Iteration 02) |
 | Dimension Score, Skill Progress, User State, Trend, Day Status | Done (Iteration 03) |
+| Attempt, Evaluation | Done (Iteration 05) |
 | Curriculum Day, Phase, Lenny Resource, External Resource, Practice Day | Future |
