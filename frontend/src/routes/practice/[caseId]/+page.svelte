@@ -3,11 +3,10 @@
 	import { goto } from '$app/navigation';
 	import { skills } from '$lib/data/skills.js';
 	import { caseStudies } from '$lib/data/case-studies.js';
-	import { userState } from '$lib/stores/user-state.svelte.js';
-	// Re-enable in iteration 14 for LLM score persistence
-	// import { addScores } from '$lib/stores/user-state.svelte.js';
-	// import { recordScores } from '$lib/scoring/engine.js';
-	import type { RubricDimension } from '$lib/types/index.js';
+	import { userState, addScores } from '$lib/stores/user-state.svelte.js';
+	import { recordScores } from '$lib/scoring/engine.js';
+	import { createAttempt, submitAttempt, evaluateAttempt } from '$lib/api/attempts.js';
+	import type { RubricDimension, EvaluationResponse } from '$lib/types/index.js';
 
 	// ── Derived data ──────────────────────────────────────────────────────
 
@@ -36,9 +35,14 @@
 	}
 
 	// ── Phase state ───────────────────────────────────────────────────────
-	// 'prompt' → 'answer' → 'submitted'
-	type Phase = 'prompt' | 'answer' | 'submitted';
+	// 'prompt' → 'answer' → 'evaluating' → 'results'
+	type Phase = 'prompt' | 'answer' | 'evaluating' | 'results';
 	let phase = $state<Phase>('prompt');
+
+	// ── Attempt + evaluation state ────────────────────────────────────────
+	let attemptId: string | null = $state(null);
+	let evaluationResult: EvaluationResponse | null = $state(null);
+	let evaluationError: string | null = $state(null);
 
 	// ── Block 1 state ─────────────────────────────────────────────────────
 	let hintsVisible = $state(false);
@@ -62,8 +66,15 @@
 
 	// ── Timer management ──────────────────────────────────────────────────
 
-	function startTimer() {
+	async function startTimer() {
 		if (!caseStudy) return;
+		try {
+			const attempt = await createAttempt('default-user', caseStudy.id);
+			attemptId = attempt.id;
+		} catch (e) {
+			console.error('Failed to create attempt:', e);
+			// Don't block timer start
+		}
 		secondsRemaining = caseStudy.timeLimit * 60;
 		phase = 'answer';
 		timerInterval = setInterval(() => {
@@ -83,9 +94,51 @@
 		}
 	}
 
-	function submitAnswer() {
+	async function submitAnswer() {
 		clearTimerInterval();
-		phase = 'submitted';
+		const timeSpentSeconds = caseStudy ? caseStudy.timeLimit * 60 - secondsRemaining : 0;
+		phase = 'evaluating';
+		try {
+			if (attemptId) {
+				await submitAttempt(attemptId, answerText, timeSpentSeconds);
+				const result = await evaluateAttempt(attemptId);
+				evaluationResult = result;
+				phase = 'results';
+			}
+		} catch (e) {
+			evaluationError = e instanceof Error ? e.message : 'Evaluation failed';
+			// Stay in 'evaluating' phase to show error + retry
+		}
+	}
+
+	// ── Helper functions ──────────────────────────────────────────────────
+
+	function lookupDimensionName(dimensionId: string): string {
+		for (const skill of skills) {
+			const dim = skill.rubricDimensions.find((d) => d.id === dimensionId);
+			if (dim) return dim.name;
+		}
+		return 'Unknown dimension';
+	}
+
+	let missingDimensions = $derived(
+		evaluationResult && caseStudy
+			? (() => {
+					const scoredIds = new Set(evaluationResult.scores.map((s) => s.dimension_id));
+					return caseStudy.rubricDimensionIds.filter((id) => !scoredIds.has(id));
+				})()
+			: []
+	);
+
+	function handleComplete() {
+		if (!evaluationResult || !caseStudy) return;
+		const convertedScores = evaluationResult.scores.map((s) => ({
+			dimensionId: s.dimension_id,
+			score: s.score
+		}));
+		const newState = recordScores(caseStudy.id, convertedScores, userState, caseStudies);
+		addScores(newState.scores.slice(-convertedScores.length));
+		window.location.href = '/';
 	}
 
 	// Clean up timer on component destroy
@@ -164,7 +217,7 @@
 		</section>
 
 		<!-- ── Block 2: Answer Area ────────────────────────────────────────── -->
-		{#if phase === 'answer' || phase === 'submitted'}
+		{#if phase === 'answer' || phase === 'evaluating' || phase === 'results'}
 			<section class="block block-answer">
 				{#if phase === 'answer'}
 					<div class="timer-sticky" class:timer-warning={timerWarning} class:timer-expired={timerExpired}>
@@ -183,7 +236,7 @@
 						placeholder="Type your answer here..."
 						value={answerText}
 						oninput={(e) => (answerText = (e.currentTarget as HTMLTextAreaElement).value)}
-						disabled={phase === 'submitted'}
+						disabled={phase !== 'answer'}
 					></textarea>
 					<div class="word-count">{wordCount} words</div>
 				</div>
@@ -196,12 +249,58 @@
 			</section>
 		{/if}
 
-		<!-- ── Block 3: Submitted ──────────────────────────────────────────── -->
-		{#if phase === 'submitted'}
-			<section class="block block-submitted">
-				<h2 class="section-heading">Answer submitted</h2>
-				<p class="submitted-message">LLM evaluation coming soon.</p>
-				<a href="/" class="btn-primary submitted-back">Back to Dashboard</a>
+		<!-- ── Block 3: Evaluating ─────────────────────────────────────────── -->
+		{#if phase === 'evaluating'}
+			<section class="block block-evaluating">
+				<div class="evaluating-container">
+					{#if evaluationError}
+						<p class="error-message">{evaluationError}</p>
+						<button class="btn-primary" onclick={async () => {
+							evaluationError = null;
+							try {
+								if (attemptId) {
+									const result = await evaluateAttempt(attemptId);
+									evaluationResult = result;
+									phase = 'results';
+								}
+							} catch (e) {
+								evaluationError = e instanceof Error ? e.message : 'Evaluation failed';
+							}
+						}}>Retry</button>
+					{:else}
+						<p>Evaluating your answer...</p>
+					{/if}
+				</div>
+			</section>
+		{/if}
+
+		<!-- ── Block 4: Results ────────────────────────────────────────────── -->
+		{#if phase === 'results'}
+			<section class="block block-results">
+				<div class="results-container">
+					<h2 class="section-heading">Evaluation Results</h2>
+					{#each evaluationResult?.scores ?? [] as score}
+						{@const dimensionName = lookupDimensionName(score.dimension_id)}
+						<div class="score-card">
+							<div class="score-header">
+								<span class="dimension-name">{dimensionName}</span>
+								<span class="score-badge">{score.score}/5</span>
+							</div>
+							<p class="reasoning">{score.reasoning}</p>
+						</div>
+					{/each}
+
+					{#if missingDimensions.length > 0}
+						{#each missingDimensions as dimId}
+							<div class="score-card not-evaluated">
+								<span>{lookupDimensionName(dimId)}</span>
+								<span>Not evaluated</span>
+							</div>
+						{/each}
+					{/if}
+
+					<button class="btn-primary" onclick={handleComplete}>Complete</button>
+				</div>
 			</section>
 		{/if}
 	</div>
@@ -590,6 +689,75 @@
 	.btn-ghost:hover {
 		color: var(--color-text);
 		border-color: var(--color-text-muted);
+	}
+
+	/* ── Block 3: Evaluating ─────────────────────────────────────────────── */
+
+	.evaluating-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		padding: 2rem 1rem;
+		text-align: center;
+		color: var(--color-text-muted);
+	}
+
+	.error-message {
+		color: #dc2626;
+		font-size: 0.9rem;
+		margin: 0;
+	}
+
+	/* ── Block 4: Results ────────────────────────────────────────────────── */
+
+	.results-container {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.score-card {
+		border: 1px solid var(--color-border);
+		border-radius: 6px;
+		padding: 1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.score-card.not-evaluated {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		color: var(--color-text-muted);
+		font-size: 0.875rem;
+	}
+
+	.score-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem;
+	}
+
+	.score-badge {
+		display: inline-block;
+		font-size: 0.875rem;
+		font-weight: 700;
+		background: var(--color-accent);
+		color: #ffffff;
+		padding: 0.15rem 0.5rem;
+		border-radius: 4px;
+		white-space: nowrap;
+	}
+
+	.reasoning {
+		font-size: 0.9rem;
+		color: var(--color-text-muted);
+		line-height: 1.55;
+		margin: 0;
 	}
 
 	/* ── Responsive ──────────────────────────────────────────────────────── */
