@@ -12,12 +12,12 @@ Each case study attempt needs an LLM-generated score per rubric dimension. I wan
 
 ## Tasks
 
-1. [ ] Add `anthropic` to `pyproject.toml` dependencies
-2. [ ] Create `backend/src/evaluator.py` with three frozen dataclasses:
+1. [x] Add `anthropic` to `pyproject.toml` dependencies
+2. [x] Create `backend/src/evaluator.py` with three frozen dataclasses:
    - `DimensionScoreResult`: dimension_id (str), score (int, 1-5), reasoning (str)
    - `EvaluationResult`: scores (list[DimensionScoreResult]), raw_response (str), model (str), prompt_tokens (int), completion_tokens (int)
    - `EvaluationError(Exception)`: raised on any failure
-3. [ ] Implement `evaluate_answer(case_prompt: str, answer_text: str, anchors: tuple[CalibrationAnchor, ...], client: AsyncAnthropic | None = None) -> EvaluationResult`:
+3. [x] Implement `evaluate_answer(case_prompt: str, answer_text: str, anchors: tuple[CalibrationAnchor, ...], client: AsyncAnthropic | None = None) -> EvaluationResult`:
    - Step 1: Build system prompt containing: the case prompt, the user's answer, the instruction "Evaluate the quality of PM thinking, not writing style. A messy answer with strong insight scores higher than a polished answer with shallow thinking.", and a description of the 8-skill PM framework with 4 dimensions each
    - Step 2: For each anchor, append its dimension name, principle, and all 5 level descriptions to the prompt
    - Step 3: Define a tool schema `record_scores` that accepts `{"scores": [{dimension_id: str, score: int, reasoning: str}]}`
@@ -26,8 +26,8 @@ Each case study attempt needs an LLM-generated score per rubric dimension. I wan
    - Step 6: Validate each score is 1-5; raise `EvaluationError` if any is out of range
    - Step 7: Build and return `EvaluationResult` from parsed scores, `response.model`, and `response.usage`
    - Step 8: Wrap any `anthropic.APIError` in `EvaluationError` with `from` chaining
-4. [ ] Create `backend/tests/test_evaluator.py` with mocked `AsyncAnthropic` client
-5. [ ] Run `make test-backend`
+4. [x] Create `backend/tests/test_evaluator.py` with mocked `AsyncAnthropic` client
+5. [x] Run `make test-backend`
 
 ## Tests
 
