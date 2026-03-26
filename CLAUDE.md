@@ -2,7 +2,7 @@
 Be concise. No sycophancy. No pandering. Challenge ideas with rationale and verifiable citations.
 
 # Constraints
-- Iterations must be small and focused
+- Iterations must be small and focused. If an iteration has more than one axis of work (research, writing, validation), split along the axes. If a task says "repeat for N items", each item is its own iteration unless N fits in a single sub-agent prompt without context pressure.
 - Every commit to `main` must contain working code; no commit is fine, broken code is not
 - Strictly follow Domain-Driven Design
 - Use domain nouns and verbs in all communication; infer them from context rather than requiring explicit declaration
@@ -15,6 +15,16 @@ When I say "let's start a new iteration":
 3. Prepare `iteration-NNN.md` and close the turn
 
 
+## Retrospectives
+Every 15 iterations, write a retrospective before starting the next iteration:
+1. Create `work-log/YYYY-MM-DD/retro-NNN-iterations-XXX-YYY.md`
+2. Review all iteration docs in the range for patterns: sizing failures, missing artifacts, delegation gaps, test design mistakes, open-ended tasks
+3. Extract "rule going forward" entries from each finding
+4. Add any new rules that belong in CLAUDE.md directly (not just the retro doc)
+5. Present the retro for user review before proceeding
+
+Retro triggers: iteration 015, 030, 045, etc. If iteration 015 is the current one, the retro covers 001-015.
+
 ## Rules for the Iteration documents
 1. No content may be added before Context is provided
 2. JTBD (Jobs To Be Done) must exist before proceeding next
@@ -25,7 +35,15 @@ When I say "let's start a new iteration":
     2. Propose additions to `docs/ddd-vocab.md` and await confirmation before writing
 6. When I say "let's close this iteration":
     1. Mark incomplete tasks as carried forward (not dropped)
-    2. Write a one-paragraph summary in `## Notes` — decisions made, not actions taken
+    2. Write a one-paragraph summary in `## Notes` -- decisions made, not actions taken
+
+## Iteration planning rules (from retro 001)
+- **Content authoring is human work, not agent work.** If an iteration requires domain-accurate text (rubric descriptions, framework references, curated examples), stop and ask the human to provide the content. Do not generate domain prose. Do not write placeholder content and offer to review it later. The agent handles structure and plumbing; the human provides domain text. **If you catch yourself about to write domain content, stop and ask for it instead.**
+- Research and implementation are separate iterations. Every research task produces a file in `work-log/YYYY-MM-DD/research-{topic}.md` with sourced quotes and references. That file is input for the implementation iteration.
+- Validation tasks must define an exit condition. "Adjust until correct" is not a task. "If X misses after 2 rounds, document the gap and move on" is.
+- When introducing a migration flag (skeleton, deprecated, draft), write tests that allow mixed states from day one. Use ratchet tests ("at least N entries migrated") that increment per iteration.
+- For shared data across stacks, write the canonical version once, then delegate a sub-agent to transpose. Never hand-write the same content in two languages.
+- Review batches: present one logical group at a time for user review, not all content in a single pass.
 
 # Testing
 
@@ -48,7 +66,7 @@ When I say "let's start a new iteration":
 - **Scratch tests**: `cd frontend && npx playwright test --config=playwright-scratch.config.ts 2>&1 | tee frontend/tests/scratch/iteration-NNN/logs/test-name.log`
 
 # Delegation model
-- Use Sonnet sub-agents extensively to prevent context rot
+- Use Sonnet sub-agents extensively to prevent context rot. Any iteration producing more than ~2k tokens of content must delegate writing to sub-agents. Main context holds the plan and reviews results.
 - Use intent-based prompts over dictation prompts for sub agents: describe the problem, constraints, existing patterns, and acceptance criteria. Let Sonnet make implementation decisions. Do NOT dictate exact code.
 - Do not give programming tasks to Haiku
 

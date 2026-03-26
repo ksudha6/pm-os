@@ -3,6 +3,7 @@
 __pycache__/
 *.pyc
 node_modules/
+.svelte-kit/
 .DS_Store
 data/*.db
 logs/

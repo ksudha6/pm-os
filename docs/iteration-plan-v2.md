@@ -39,7 +39,8 @@ Iterations 1-3 (skills, case studies, scoring engine) and the UI shell (iteratio
 ### Backlog
 | # | Name | Depends On | What it delivers |
 |---|------|------------|-----------------|
-| 15 | Calibration Quality Pass | 14 | Rewrite anchors using Lenny MCP + PM frameworks, user review |
+| 15 | Calibration Quality Pass | 14 | Human-authored anchors using Lenny MCP + PM frameworks, wired in per skill |
+| -- | Drop skeleton assertion from permanent tests | -- | Remove `skeleton=True`/`skeleton: true` assertions from `test_calibration.py` and `calibration.test.ts`; these are scratch-level checks, not regression tests |
 | 16 | Score Display + Reasoning | 14 | `/history/[attemptId]` route, expandable skill rows with evaluation excerpts |
 | 17 | Adaptive Engine | 14 | Case recommendation algorithm (client-side) |
 | 18 | RAG Pipeline | 10 | Resource ingestion (Lenny MCP + manual), retrieval at eval time |
