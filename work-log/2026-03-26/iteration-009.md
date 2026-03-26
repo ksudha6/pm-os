@@ -18,10 +18,10 @@ Each case study attempt needs an LLM-generated score per rubric dimension. I wan
    - `EvaluationResult`: scores (list[DimensionScoreResult]), raw_response (str), model (str), prompt_tokens (int), completion_tokens (int)
    - `EvaluationError(Exception)`: raised on any failure
 3. [ ] Implement `evaluate_answer(case_prompt: str, answer_text: str, anchors: tuple[CalibrationAnchor, ...], client: AsyncAnthropic | None = None) -> EvaluationResult`:
-   - Step 1: Build system prompt containing the case prompt and the user's answer
+   - Step 1: Build system prompt containing: the case prompt, the user's answer, the instruction "Evaluate the quality of PM thinking, not writing style. A messy answer with strong insight scores higher than a polished answer with shallow thinking.", and a description of the 8-skill PM framework with 4 dimensions each
    - Step 2: For each anchor, append its dimension name, principle, and all 5 level descriptions to the prompt
    - Step 3: Define a tool schema `record_scores` that accepts `{"scores": [{dimension_id: str, score: int, reasoning: str}]}`
-   - Step 4: Call `client.messages.create()` with model `claude-sonnet-4-20250514`, the system prompt, and the tool definition
+   - Step 4: Call `client.messages.create()` with model `claude-sonnet-4-20250514`, `temperature=0`, the system prompt, and the tool definition
    - Step 5: Extract the `tool_use` content block from the response; raise `EvaluationError` if missing
    - Step 6: Validate each score is 1-5; raise `EvaluationError` if any is out of range
    - Step 7: Build and return `EvaluationResult` from parsed scores, `response.model`, and `response.usage`
@@ -35,9 +35,11 @@ Each case study attempt needs an LLM-generated score per rubric dimension. I wan
 2. Prompt contains case prompt text
 3. Prompt contains answer text
 4. Prompt contains anchor level descriptions
-5. Scores outside 1-5 raise `EvaluationError`
-6. Missing tool_use block raises `EvaluationError`
-7. Malformed JSON in tool_use raises `EvaluationError`
-8. API error raises `EvaluationError` with chained cause
+5. Prompt contains "Evaluate the quality of PM thinking, not writing style" instruction
+6. API call uses `temperature=0`
+7. Scores outside 1-5 raise `EvaluationError`
+8. Missing tool_use block raises `EvaluationError`
+9. Malformed JSON in tool_use raises `EvaluationError`
+10. API error raises `EvaluationError` with chained cause
 
 ## Notes

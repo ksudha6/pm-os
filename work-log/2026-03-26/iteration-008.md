@@ -12,9 +12,9 @@ I want to introduce calibration anchors for the 32 rubric dimensions. Each rubri
 
 ## Tasks
 
-- [ ] `backend/src/calibration.py` -- frozen dataclass `CalibrationAnchor` (dimension_id, principle, levels dict[int, str], reflection_prompt) + `CALIBRATION_ANCHORS` tuple of 32 entries
+- [ ] `backend/src/calibration.py` -- frozen dataclass `CalibrationAnchor` (dimension_id, principle, levels dict[int, str], reflection_prompt, skeleton bool) + `CALIBRATION_ANCHORS` tuple of 32 entries. Set `skeleton=True` for all entries.
 - [ ] `backend/tests/test_calibration.py` -- validation tests
-- [ ] `frontend/src/lib/types/calibration.ts` -- `CalibrationAnchor` type
+- [ ] `frontend/src/lib/types/calibration.ts` -- `CalibrationAnchor` type (includes `skeleton: boolean` field)
 - [ ] `frontend/src/lib/data/calibration.ts` -- 32 exported entries
 - [ ] `frontend/src/lib/types/index.ts` -- re-export CalibrationAnchor
 - [ ] `frontend/tests/data/calibration.test.ts` -- validation tests
@@ -30,6 +30,7 @@ I want to introduce calibration anchors for the 32 rubric dimensions. Each rubri
 5. Each anchor has exactly 5 levels (keys 1-5), all non-empty strings
 6. `principle` is non-empty string
 7. `reflection_prompt` is non-empty string
+8. All entries have `skeleton=True`
 
 ### Frontend (`calibration.test.ts`)
 1. Exactly 32 anchors exist
@@ -39,5 +40,6 @@ I want to introduce calibration anchors for the 32 rubric dimensions. Each rubri
 5. Each anchor has exactly 5 levels (keys 1-5), all non-empty strings
 6. `principle` is non-empty string
 7. `reflectionPrompt` is non-empty string
+8. All entries have `skeleton: true`
 
 ## Notes
