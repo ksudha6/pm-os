@@ -886,6 +886,16 @@ CASE_STUDIES: list[dict] = [
 ]
 
 
+async def seed_default_user(db_path: str = DEFAULT_DB_PATH) -> None:
+    """Insert the default user if it does not already exist."""
+    async with get_db(db_path) as conn:
+        await conn.execute(
+            "INSERT OR IGNORE INTO users (id, display_name) VALUES (?, ?)",
+            ("default-user", "Default User"),
+        )
+        await conn.commit()
+
+
 async def seed_cases(db_path: str = DEFAULT_DB_PATH) -> int:
     """Insert all case studies into the database, skipping existing rows.
 

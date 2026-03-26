@@ -11,9 +11,9 @@ Frontend will call the backend API from a different port (5173 -> 8000). The `at
 
 ## Tasks
 
-1. [ ] Add CORS middleware to `backend/src/main.py`: allow origin `http://localhost:5173`, all methods, all headers
-2. [ ] Seed a default user in `backend/src/seed.py`: insert `('default-user', 'Default User')` into `users` table if not exists
-3. [ ] Run `make test-backend`
+1. [x] Add CORS middleware to `backend/src/main.py`: allow origin `http://localhost:5173`, all methods, all headers
+2. [x] Seed a default user in `backend/src/seed.py`: insert `('default-user', 'Default User')` into `users` table if not exists
+3. [x] Run `make test-backend`
 
 ## Tests (permanent)
 
