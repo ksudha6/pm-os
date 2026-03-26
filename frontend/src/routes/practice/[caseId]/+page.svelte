@@ -3,8 +3,10 @@
 	import { goto } from '$app/navigation';
 	import { skills } from '$lib/data/skills.js';
 	import { caseStudies } from '$lib/data/case-studies.js';
-	import { userState, addScores } from '$lib/stores/user-state.svelte.js';
-	import { recordScores } from '$lib/scoring/engine.js';
+	import { userState } from '$lib/stores/user-state.svelte.js';
+	// Re-enable in iteration 14 for LLM score persistence
+	// import { addScores } from '$lib/stores/user-state.svelte.js';
+	// import { recordScores } from '$lib/scoring/engine.js';
 	import type { RubricDimension } from '$lib/types/index.js';
 
 	// ── Derived data ──────────────────────────────────────────────────────
@@ -33,17 +35,9 @@
 		return { ...dim, skillId };
 	}
 
-	const rubricDimensions = $derived(
-		caseStudy
-			? caseStudy.rubricDimensionIds
-					.map(resolveDimension)
-					.filter((d): d is RubricDimension & { skillId: number } => d !== null)
-			: []
-	);
-
 	// ── Phase state ───────────────────────────────────────────────────────
-	// 'prompt' → 'answer' → 'assess'
-	type Phase = 'prompt' | 'answer' | 'assess';
+	// 'prompt' → 'answer' → 'submitted'
+	type Phase = 'prompt' | 'answer' | 'submitted';
 	let phase = $state<Phase>('prompt');
 
 	// ── Block 1 state ─────────────────────────────────────────────────────
@@ -65,15 +59,6 @@
 	);
 	const timerWarning = $derived(secondsRemaining <= 300 && secondsRemaining > 0);
 	const timerExpired = $derived(secondsRemaining === 0 && phase === 'answer');
-
-	// ── Block 3 state ─────────────────────────────────────────────────────
-	// Map from dimensionId → score (1–5)
-	let dimensionScores = $state<Record<string, number>>({});
-
-	const allScored = $derived(
-		rubricDimensions.length > 0 &&
-			rubricDimensions.every((d) => dimensionScores[d.id] !== undefined)
-	);
 
 	// ── Timer management ──────────────────────────────────────────────────
 
@@ -100,7 +85,7 @@
 
 	function submitAnswer() {
 		clearTimerInterval();
-		phase = 'assess';
+		phase = 'submitted';
 	}
 
 	// Clean up timer on component destroy
@@ -109,24 +94,6 @@
 			clearTimerInterval();
 		};
 	});
-
-	// ── Block 3: complete ─────────────────────────────────────────────────
-
-	function handleComplete() {
-		if (!caseStudy) return;
-
-		const scores = rubricDimensions.map((d) => ({
-			dimensionId: d.id,
-			score: dimensionScores[d.id] ?? 1
-		}));
-
-		const oldLength = userState.scores.length;
-		const newState = recordScores(caseStudy.id, scores, { ...userState }, caseStudies);
-		const newDimensionScores = newState.scores.slice(oldLength);
-		addScores(newDimensionScores);
-
-		goto('/');
-	}
 
 	// ── Formatting helpers ────────────────────────────────────────────────
 
@@ -197,7 +164,7 @@
 		</section>
 
 		<!-- ── Block 2: Answer Area ────────────────────────────────────────── -->
-		{#if phase === 'answer' || phase === 'assess'}
+		{#if phase === 'answer' || phase === 'submitted'}
 			<section class="block block-answer">
 				{#if phase === 'answer'}
 					<div class="timer-sticky" class:timer-warning={timerWarning} class:timer-expired={timerExpired}>
@@ -216,7 +183,7 @@
 						placeholder="Type your answer here..."
 						value={answerText}
 						oninput={(e) => (answerText = (e.currentTarget as HTMLTextAreaElement).value)}
-						disabled={phase === 'assess'}
+						disabled={phase === 'submitted'}
 					></textarea>
 					<div class="word-count">{wordCount} words</div>
 				</div>
@@ -229,40 +196,12 @@
 			</section>
 		{/if}
 
-		<!-- ── Block 3: Self-Assessment ───────────────────────────────────── -->
-		{#if phase === 'assess'}
-			<section class="block block-assess">
-				<h2 class="section-heading">Self-Assessment</h2>
-				<p class="assess-intro">Rate your answer on each dimension below (1 = weak, 5 = strong).</p>
-
-				<ul class="dimensions-list">
-					{#each rubricDimensions as dim}
-						<li class="dimension-item">
-							<div class="dimension-info">
-								<span class="dimension-name">{dim.name}</span>
-								<span class="dimension-desc">{dim.description}</span>
-							</div>
-							<div class="score-selector">
-								{#each [1, 2, 3, 4, 5] as n}
-									<button
-										class="score-btn"
-										class:score-selected={dimensionScores[dim.id] === n}
-										onclick={() => (dimensionScores[dim.id] = n)}
-									>{n}</button>
-								{/each}
-							</div>
-						</li>
-					{/each}
-				</ul>
-
-				<div class="complete-action">
-					<button class="btn-primary" disabled={!allScored} onclick={handleComplete}>
-						Complete
-					</button>
-					{#if !allScored}
-						<span class="complete-hint">Score all dimensions to continue</span>
-					{/if}
-				</div>
+		<!-- ── Block 3: Submitted ──────────────────────────────────────────── -->
+		{#if phase === 'submitted'}
+			<section class="block block-submitted">
+				<h2 class="section-heading">Answer submitted</h2>
+				<p class="submitted-message">LLM evaluation coming soon.</p>
+				<a href="/" class="btn-primary submitted-back">Back to Dashboard</a>
 			</section>
 		{/if}
 	</div>
