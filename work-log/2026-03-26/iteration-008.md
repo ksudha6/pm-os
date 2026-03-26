@@ -12,13 +12,13 @@ I want to introduce calibration anchors for the 32 rubric dimensions. Each rubri
 
 ## Tasks
 
-- [ ] `backend/src/calibration.py` -- frozen dataclass `CalibrationAnchor` (dimension_id, principle, levels dict[int, str], reflection_prompt, skeleton bool) + `CALIBRATION_ANCHORS` tuple of 32 entries. Set `skeleton=True` for all entries.
-- [ ] `backend/tests/test_calibration.py` -- validation tests
-- [ ] `frontend/src/lib/types/calibration.ts` -- `CalibrationAnchor` type (includes `skeleton: boolean` field)
-- [ ] `frontend/src/lib/data/calibration.ts` -- 32 exported entries
-- [ ] `frontend/src/lib/types/index.ts` -- re-export CalibrationAnchor
-- [ ] `frontend/tests/data/calibration.test.ts` -- validation tests
-- [ ] Run `make test-backend` and `make test`
+- [x] `backend/src/calibration.py` -- frozen dataclass `CalibrationAnchor` (dimension_id, principle, levels dict[int, str], reflection_prompt, skeleton bool) + `CALIBRATION_ANCHORS` tuple of 32 entries. Set `skeleton=True` for all entries.
+- [x] `backend/tests/test_calibration.py` -- validation tests
+- [x] `frontend/src/lib/types/calibration.ts` -- `CalibrationAnchor` type (includes `skeleton: boolean` field)
+- [x] `frontend/src/lib/data/calibration.ts` -- 32 exported entries
+- [x] `frontend/src/lib/types/index.ts` -- re-export CalibrationAnchor
+- [x] `frontend/tests/data/calibration.test.ts` -- validation tests
+- [x] Run `make test-backend` and `make test`
 
 ## Tests (permanent)
 
