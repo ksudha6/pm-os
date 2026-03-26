@@ -32,19 +32,20 @@ Iterations 1-3 (skills, case studies, scoring engine) and the UI shell (iteratio
 | 09 | Evaluator Module | 08 | `evaluate_answer()` async function, Claude API + tool_use, structured scores |
 | 10 | Evaluate Endpoint | 09 | `POST /api/v1/attempts/{id}/evaluate`, persists to eval_scores + evaluations |
 | 11 | Frontend API Client | -- | Typed fetch wrapper, attempts/evaluate functions, mocked tests |
-| 12 | Frontend Integration | 10, 11 | Replace self-assessment with LLM evaluation display, new phase model |
+| 12 | Remove Self-Assessment | -- | Strip self-assessment UI, add submitted stub |
+| 13 | Wire LLM Evaluation | 10, 11, 12 | Wire API client, add evaluating + results phases, display LLM scores |
 
 ### Backlog
 | # | Name | Depends On | What it delivers |
 |---|------|------------|-----------------|
-| 13 | Calibration Quality Pass | 12 | Rewrite anchors using Lenny MCP + PM frameworks, user review |
-| 14 | Score Display + Reasoning | 12 | `/history/[attemptId]` route, expandable skill rows with evaluation excerpts |
-| 15 | Adaptive Engine | 12 | Case recommendation algorithm (client-side) |
-| 16 | RAG Pipeline | 10 | Resource ingestion (Lenny MCP + manual), retrieval at eval time |
-| 17 | Curriculum Engine | 14, 16 | 60-day plan with RAG-driven resource pairing |
-| 18 | Progress + Polish | 14 | Streaks, heatmap, export, responsive polish |
+| 14 | Calibration Quality Pass | 13 | Rewrite anchors using Lenny MCP + PM frameworks, user review |
+| 15 | Score Display + Reasoning | 13 | `/history/[attemptId]` route, expandable skill rows with evaluation excerpts |
+| 16 | Adaptive Engine | 13 | Case recommendation algorithm (client-side) |
+| 17 | RAG Pipeline | 10 | Resource ingestion (Lenny MCP + manual), retrieval at eval time |
+| 18 | Curriculum Engine | 15, 17 | 60-day plan with RAG-driven resource pairing |
+| 19 | Progress + Polish | 15 | Streaks, heatmap, export, responsive polish |
 
-**Critical path: 08 -> 09 -> 10 -> 12 (with 11 independent, done before 12).**
+**Critical path: 08 -> 09 -> 10 -> 12 -> 13 (with 11 independent, done before 13).**
 
 ---
 
