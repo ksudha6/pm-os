@@ -2,7 +2,8 @@
 
 up:
 	mkdir -p logs
-	@trap 'kill 0' EXIT; \
+	@set -a; [ -f .env ] && . .env; set +a; \
+	trap 'kill 0' EXIT; \
 	uv run uvicorn backend.src.main:app --host 0.0.0.0 --port 8000 --reload 2>&1 | tee logs/uvicorn.log & \
 	cd frontend && npm run dev 2>&1 | tee ../logs/sveltekit.log & \
 	wait
