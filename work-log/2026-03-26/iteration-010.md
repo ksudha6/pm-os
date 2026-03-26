@@ -13,10 +13,10 @@ I want to expose the evaluator as an HTTP endpoint that persists scores to the d
 
 ## Tasks
 
-1. [ ] Add Pydantic models to `backend/src/models.py`:
+1. [x] Add Pydantic models to `backend/src/models.py`:
    - `DimensionScoreResult`: dimension_id (str), score (int), reasoning (str)
    - `EvaluationResponse`: attempt_id (str), scores (list[DimensionScoreResult]), model (str), created_at (str)
-2. [ ] Create `backend/src/routes/evaluate.py` with `POST /api/v1/attempts/{attempt_id}/evaluate`:
+2. [x] Create `backend/src/routes/evaluate.py` with `POST /api/v1/attempts/{attempt_id}/evaluate`:
    - Step 1: Query `attempts` table by attempt_id; return 404 if not found
    - Step 2: Check `submitted_at` is not null; return 400 if null
    - Step 3: Query `evaluations` table by attempt_id; if row exists, query `eval_scores` for that attempt and return existing `EvaluationResponse`
@@ -26,9 +26,9 @@ I want to expose the evaluator as an HTTP endpoint that persists scores to the d
    - Step 7: Insert one row per dimension into `eval_scores` (source='llm')
    - Step 8: Insert one row into `evaluations` with raw_response, model, prompt_tokens, completion_tokens
    - Step 9: Return `EvaluationResponse`
-3. [ ] Wire evaluate router in `backend/src/main.py`: import and `app.include_router(evaluate_router)`
-4. [ ] Create `backend/tests/test_evaluate.py` -- all tests monkeypatch `evaluate_answer` to avoid real API calls
-5. [ ] Run `make test-backend`
+3. [x] Wire evaluate router in `backend/src/main.py`: import and `app.include_router(evaluate_router)`
+4. [x] Create `backend/tests/test_evaluate.py` -- all tests monkeypatch `evaluate_answer` to avoid real API calls
+5. [x] Run `make test-backend`
 
 ## Tests (permanent)
 

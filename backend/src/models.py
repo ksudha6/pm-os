@@ -70,3 +70,16 @@ class SkillCoverageResponse(BaseModel):
 class ProgressResponse(BaseModel):
     eval_scores: list[EvalScoreResponse]
     coverage: list[SkillCoverageResponse]
+
+
+class DimensionScoreResultResponse(BaseModel):
+    dimension_id: str
+    score: int
+    reasoning: str
+
+
+class EvaluationResponse(BaseModel):
+    attempt_id: str
+    scores: list[DimensionScoreResultResponse]
+    model: str
+    created_at: str
