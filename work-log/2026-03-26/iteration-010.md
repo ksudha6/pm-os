@@ -14,7 +14,9 @@ I want to expose the evaluator as an HTTP endpoint that persists scores to the d
 ## Tasks
 
 1. [ ] Add `wall_clock_ms INTEGER` column to `evaluations` table in `backend/src/schema.sql`
-2. [ ] Add Pydantic models to `backend/src/models.py`:
+2. [ ] Seed a default user row in `backend/src/seed.py`: insert `('default-user', 'Default User')` into `users` table if not exists. This is needed because `attempts.user_id` has a FK to `users(id)`.
+3. [ ] Add CORS middleware to `backend/src/main.py`: `app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173"], allow_methods=["*"], allow_headers=["*"])`. Frontend dev server runs on port 5173, backend on 8000.
+4. [ ] Add Pydantic models to `backend/src/models.py`:
    - `DimensionScoreResult`: dimension_id (str), score (int), reasoning (str)
    - `EvaluationResponse`: attempt_id (str), scores (list[DimensionScoreResult]), model (str), created_at (str)
 2. [ ] Create `backend/src/routes/evaluate.py` with `POST /api/v1/attempts/{attempt_id}/evaluate` (accepts optional query param `force: bool = False`):
