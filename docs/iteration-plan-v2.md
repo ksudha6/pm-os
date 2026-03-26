@@ -19,19 +19,32 @@ Iterations 1-3 (skills, case studies, scoring engine) and the UI shell (iteratio
 
 ## Iteration Map
 
+### Completed
+| # | Name | Status |
+|---|------|--------|
+| 01-04 | Skills, case studies, scoring engine, UI shell | Done |
+| 05-07 | Backend core: SQLite schema, attempts CRUD, progress API | Done |
+
+### Active (pipeline to working LLM evaluation)
 | # | Name | Depends On | What it delivers |
 |---|------|------------|-----------------|
-| 05 | Calibration Data | 1 | 32 anchors (5 levels each), principles, reflection prompts |
-| 06 | Backend Core | -- | SQLite schema, FastAPI endpoints for attempts + scores |
-| 07 | LLM Evaluation | 05, 06 | Endpoint: answer + rubric -> per-dimension scores with reasoning |
-| 08 | Frontend Integration | 07 | Case flow calls backend, displays LLM evaluation, syncs scores |
-| 09 | Score Display + Reasoning | 08 | Progress page with reasoning, attempt review, evaluation history |
-| 10 | Adaptive Engine | 08 | Case recommendation algorithm (client-side) |
-| 11 | RAG Pipeline | 07 | Resource ingestion (Lenny MCP + manual), retrieval at eval time |
-| 12 | Curriculum Engine | 09, 11 | 60-day plan with RAG-driven resource pairing |
-| 13 | Progress + Polish | 09 | Streaks, heatmap, export, responsive polish |
+| 08 | Skeleton Calibration Data | -- | 32 anchors with generic level descriptions (both stacks), enough to unblock evaluator |
+| 09 | Evaluator Module | 08 | `evaluate_answer()` async function, Claude API + tool_use, structured scores |
+| 10 | Evaluate Endpoint | 09 | `POST /api/v1/attempts/{id}/evaluate`, persists to eval_scores + evaluations |
+| 11 | Frontend API Client | -- | Typed fetch wrapper, attempts/evaluate functions, mocked tests |
+| 12 | Frontend Integration | 10, 11 | Replace self-assessment with LLM evaluation display, new phase model |
 
-**Critical path to working LLM evaluation: 05 -> 06 -> 07 -> 08 (4 iterations). 05 and 06 have no dependency on each other and can be built in parallel.**
+### Backlog
+| # | Name | Depends On | What it delivers |
+|---|------|------------|-----------------|
+| 13 | Calibration Quality Pass | 12 | Rewrite anchors using Lenny MCP + PM frameworks, user review |
+| 14 | Score Display + Reasoning | 12 | `/history/[attemptId]` route, expandable skill rows with evaluation excerpts |
+| 15 | Adaptive Engine | 12 | Case recommendation algorithm (client-side) |
+| 16 | RAG Pipeline | 10 | Resource ingestion (Lenny MCP + manual), retrieval at eval time |
+| 17 | Curriculum Engine | 14, 16 | 60-day plan with RAG-driven resource pairing |
+| 18 | Progress + Polish | 14 | Streaks, heatmap, export, responsive polish |
+
+**Critical path: 08 -> 09 -> 10 -> 12 (with 11 independent, done before 12).**
 
 ---
 
