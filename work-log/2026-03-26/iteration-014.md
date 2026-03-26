@@ -1,36 +1,63 @@
-# Iteration 14 -- Calibration Quality Pass -- 2026-03-26
+# Iteration 14 -- Wire LLM Evaluation into Practice Page -- 2026-03-26
 
 ## Context
 
-Skeleton calibration anchors have generic level descriptions. I want to replace them with PM-framework-grounded content using Lenny MCP archive and established PM frameworks (Cagan, Torres, Gupta, Huryn).
+Self-assessment is removed (iteration 12). After submitting an answer, the practice page shows a placeholder block with "Answer submitted. LLM evaluation coming soon." and a "Back to Dashboard" link. This iteration replaces that placeholder with real API calls and LLM evaluation results.
 
 ## JTBD
 
-1. When the LLM evaluates an answer, the calibration anchors should reflect real PM frameworks so scores are meaningful and defensible.
-2. When a user reads their level description, it should reference concrete PM behaviors they can recognize from their work.
-3. When validating the evaluator, reference answers at known quality levels should score in expected ranges, confirming the anchors produce correct evaluations.
+1. When the user starts a case, create an attempt on the backend so the answer can be persisted.
+2. When the user submits their answer, send it to the backend and show a loading state while the LLM evaluates.
+3. When evaluation completes, display each dimension's score (1-5) and reasoning text.
+4. When evaluation fails, show an error with a retry option.
+5. When the user clicks "Complete", persist LLM scores to the local scoring engine and return to dashboard. LLM scores are final -- no user override.
 
 ## Tasks
 
-1. [ ] Research skill 1 (User Empathy & Customer Knowledge): search Lenny MCP for behavioral descriptions of what good/bad PM customer engagement looks like. Extract concrete behaviors for levels 1-5 across all 4 dimensions (r1d1-r1d4). Each level description should be 2-3 sentences referencing specific PM behaviors, not generic adjectives.
-2. [ ] Repeat for skill 2 (Product Sense & Judgment): r2d1-r2d4
-3. [ ] Repeat for skill 3 (Strategic Thinking & Vision): r3d1-r3d4
-4. [ ] Repeat for skill 4 (Business Acumen & Viability): r4d1-r4d4
-5. [ ] Repeat for skill 5 (Discovery Practice & Methods): r5d1-r5d4
-6. [ ] Repeat for skill 6 (Data Fluency & Experimentation): r6d1-r6d4
-7. [ ] Repeat for skill 7 (Leadership, Influence & Execution): r7d1-r7d4
-8. [ ] Repeat for skill 8 (Domain & Market Depth): r8d1-r8d4
-9. [ ] Rewrite `backend/src/calibration.py` -- replace all 32 skeleton entries with researched content. Set `skeleton=False` on all rewritten entries. Keep the `principle` and `reflection_prompt` fields updated too. Level descriptions: 2-3 sentences each, reference specific PM frameworks (Cagan, Torres, Gupta, Huryn) where applicable.
-10. [ ] Rewrite `frontend/src/lib/data/calibration.ts` -- identical content to backend, adapted to TypeScript types. Set `skeleton: false` on all entries.
-11. [ ] Author 2 reference answers per skill (one weak answer expected to score 1-2, one strong answer expected to score 4-5). Store in `backend/tests/fixtures/reference_answers/` as plain text files.
-12. [ ] Run each reference answer through the evaluator (using `force=true` endpoint). Verify weak answers score 1-2 and strong answers score 4-5 on the primary skill dimensions. If scores don't land in range, adjust anchors or prompt until they do.
-13. [ ] Run `make test-backend` and `make test` (structural tests from iteration 08 must still pass)
-14. [ ] Present all 32 anchors for user review before committing
+1. [ ] In `frontend/src/routes/practice/[caseId]/+page.svelte`, change phase type from `'prompt' | 'answer' | 'submitted'` to `'prompt' | 'answer' | 'evaluating' | 'results'`
+2. [ ] Add imports at top of file:
+   - `import { createAttempt, submitAttempt, evaluateAttempt } from '$lib/api/attempts'`
+   - `import type { EvaluationResponse } from '$lib/types/index'`
+   - Re-enable `recordScores` import from `$lib/scoring/engine` (commented out in iteration 12)
+   - Re-enable `addScores` import from `$lib/stores/user-state.svelte`
+3. [ ] Add state variables:
+   - `attemptId: string | null = null`
+   - `evaluationResult: EvaluationResponse | null = null`
+   - `evaluationError: string | null = null`
+4. [ ] Modify "Start Timer" click handler:
+   - Call `createAttempt('default-user', caseStudy.id)` (single-user app, no auth)
+   - Store returned `id` in `attemptId`
+   - Wrap in try/catch: on failure, show error inline (don't block timer start)
+5. [ ] Modify "Submit Answer" click handler:
+   - Call `submitAttempt(attemptId, answerText, timeSpentSeconds)`
+   - Set `phase = 'evaluating'`
+   - Call `evaluateAttempt(attemptId)`
+   - On success: store result in `evaluationResult`, set `phase = 'results'`
+   - On failure: store error message in `evaluationError`, stay in `'evaluating'` phase
+6. [ ] Replace the `{:else if phase === 'submitted'}` block with two new blocks:
+   - `{:else if phase === 'evaluating'}`: loading spinner, text "Evaluating your answer...". If `evaluationError` is set, show error message and a "Retry" button that calls `evaluateAttempt(attemptId)` again
+   - `{:else if phase === 'results'}`: for each score in `evaluationResult.scores`, display:
+     - Dimension name (look up from `skills` data using `dimension_id` -- parse skill ID from `r{skillId}d{dimNumber}` format, find skill, find matching rubricDimension by ID). If `dimension_id` doesn't match any skill, show "Unknown dimension" with the score instead of crashing.
+     - Score badge (1-5)
+     - Reasoning text
+     - If fewer scores returned than dimensions on the case, show missing dimensions as "Not evaluated"
+7. [ ] Add "Complete" button in results phase:
+   - Convert `evaluationResult.scores` to `{dimensionId, score}[]` format
+   - Call `recordScores(caseStudy.id, convertedScores, userState, caseStudies)` -- this handles primary/secondary weight assignment
+   - Call `addScores()` with the returned new scores
+   - Navigate to `/`
+8. [ ] Run `make test` and `make test-backend`
+9. [ ] Manual verification: `make up`, navigate to a case, start timer, submit answer, observe loading state, see LLM scores with reasoning, click Complete, verify dashboard shows updated progress
 
 ## Tests (permanent)
 
-- Existing structural tests from iteration 08 still pass (32 anchors, correct IDs, 5 non-empty levels each, non-empty principle and reflection prompt)
-- All entries have `skeleton=False` (new test, replaces the `skeleton=True` assertion from iteration 08)
-- Reference answer validation: 16 reference answers (2 per skill) with expected score ranges stored as test fixtures
+1. Phase transitions: prompt -> answer -> evaluating -> results
+2. `createAttempt` called with `'default-user'` and case ID when timer starts
+3. `submitAttempt` and `evaluateAttempt` called when answer is submitted
+4. Results phase renders one dimension name, score, and reasoning per entry in `evaluationResult.scores`
+5. Unknown dimension_id renders "Unknown dimension" instead of crashing
+6. Missing dimensions render "Not evaluated"
+7. Error state in evaluating phase renders error message and retry button
+8. "Complete" calls `recordScores` then `addScores` with LLM-sourced scores
 
 ## Notes

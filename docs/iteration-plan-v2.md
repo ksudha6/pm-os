@@ -33,21 +33,22 @@ Iterations 1-3 (skills, case studies, scoring engine) and the UI shell (iteratio
 | 10 | Evaluate Endpoint | 09 | `POST /api/v1/attempts/{id}/evaluate`, persists to eval_scores + evaluations |
 | 11 | Frontend API Client | -- | Typed fetch wrapper, attempts/evaluate functions, mocked tests |
 | 12 | Remove Self-Assessment | -- | Strip self-assessment UI, add submitted stub |
-| 13 | Wire LLM Evaluation | 10, 11, 12 | Wire API client, add evaluating + results phases, display LLM scores |
+| 13 | Backend Prerequisites | -- | Default user seed, CORS middleware |
+| 14 | Wire LLM Evaluation | 10, 11, 12, 13 | Wire API client, add evaluating + results phases, display LLM scores |
 
 ### Backlog
 | # | Name | Depends On | What it delivers |
 |---|------|------------|-----------------|
-| 14 | Calibration Quality Pass | 13 | Rewrite anchors using Lenny MCP + PM frameworks, user review |
-| 15 | Score Display + Reasoning | 13 | `/history/[attemptId]` route, expandable skill rows with evaluation excerpts |
-| 16 | Adaptive Engine | 13 | Case recommendation algorithm (client-side) |
-| 17 | RAG Pipeline | 10 | Resource ingestion (Lenny MCP + manual), retrieval at eval time |
-| 18 | Curriculum Engine | 15, 17 | 60-day plan with RAG-driven resource pairing |
-| 19 | Backend Hardening | 10 | Default user seed, CORS middleware, wall_clock_ms column, force re-eval param |
-| 20 | Score Sync | 13 | `fetchScores()` on user-state store, backend as source of truth, localStorage as cache |
-| 21 | Progress + Polish | 15 | Streaks, heatmap, export, responsive polish |
+| 15 | Calibration Quality Pass | 14 | Rewrite anchors using Lenny MCP + PM frameworks, user review |
+| 16 | Score Display + Reasoning | 14 | `/history/[attemptId]` route, expandable skill rows with evaluation excerpts |
+| 17 | Adaptive Engine | 14 | Case recommendation algorithm (client-side) |
+| 18 | RAG Pipeline | 10 | Resource ingestion (Lenny MCP + manual), retrieval at eval time |
+| 19 | Curriculum Engine | 16, 18 | 60-day plan with RAG-driven resource pairing |
+| 20 | Backend Hardening | 10 | wall_clock_ms column, force re-eval param, cost logging |
+| 21 | Score Sync | 14 | `fetchScores()` on user-state store, backend as source of truth, localStorage as cache |
+| 22 | Progress + Polish | 16 | Streaks, heatmap, export, responsive polish |
 
-**Critical path: 08 -> 09 -> 10 -> 12 -> 13 (with 11 independent, done before 13).**
+**Critical path: 08 -> 09 -> 10 -> 13 -> 14 (with 11 and 12 independent, done before 14).**
 
 ---
 
