@@ -93,6 +93,114 @@ export const caseStudies: CaseStudy[] = [
 			'Look for shared pain points that unlock unified solutions'
 		]
 	},
+	{
+		id: 'cs_1_6',
+		title: 'Slack Search Sidebar Predictions',
+		prompt:
+			"You're the PM for Slack's message search feature. Currently, users search via a top-bar search box. Your team proposes moving search into a dedicated sidebar panel with advanced filters (date range, file type, user, channel). Before the experiment ships, what specific predictions would you make about user behavior? How would you know if you're right?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 1,
+		secondarySkillIds: [2],
+		caseType: 'discovery_plan',
+		rubricDimensionIds: ['r1d4', 'r1d1', 'r1d3'],
+		hints: [
+			'Predict specific metrics shifts, not just directional guesses',
+			'Consider both power users and casual searchers separately',
+			'What behavioral proxy would tell you search is better vs just different?'
+		]
+	},
+	{
+		id: 'cs_1_7',
+		title: 'Figma Collaborative Comments Predictions',
+		prompt:
+			"At Figma, you're shipping a new 'collaborative comments' feature that allows real-time threaded discussion on design elements. Design thinking says this will increase collaboration velocity. Before launch, what user reactions or behaviors are you most uncertain about? Walk me through how you'd set up your prediction framework.",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 1,
+		secondarySkillIds: [5],
+		caseType: 'discovery_plan',
+		rubricDimensionIds: ['r1d4', 'r1d2', 'r1d3'],
+		hints: [
+			'Distinguish adoption from sustained use',
+			'Consider which team roles will use comments differently',
+			'What would signal that comments replace meetings vs. add noise?'
+		]
+	},
+	{
+		id: 'cs_1_8',
+		title: 'LinkedIn Passive Job Seeker Feed',
+		prompt:
+			"LinkedIn is testing a 'Jobs You Might Like' feed section for passive job seekers — people not actively looking. You have data showing these users visit LinkedIn 2x per week but rarely engage with job content. What's your prediction for engagement, click-through rate, and application rate? What would surprise you, and what would confirm your mental model is accurate?",
+		context: 'B2C',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 1,
+		secondarySkillIds: [2],
+		caseType: 'metric_diagnosis',
+		rubricDimensionIds: ['r1d4', 'r2d3', 'r1d1'],
+		hints: [
+			'Passive seekers have fundamentally different intent than active seekers',
+			'What click-through rate would indicate interest vs. curiosity?',
+			'Consider the social risk of appearing to be job-hunting'
+		]
+	},
+	{
+		id: 'cs_1_9',
+		title: 'Stripe Smart Retry Recovery Prediction',
+		prompt:
+			"Stripe is launching a new 'Smart Retry' feature that automatically retries failed payments on user-configurable schedules (e.g., retry every 3 days up to 5 times). Before shipping, you need to predict the key outcome: what percent of failed payments will successfully recover? Walk me through your prediction logic and what merchant feedback would validate or invalidate your assumption.",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 1,
+		secondarySkillIds: [2, 6],
+		caseType: 'estimation',
+		rubricDimensionIds: ['r1d4', 'r1d1', 'r2d2'],
+		hints: [
+			'Failed payments have different root causes: insufficient funds, expired cards, fraud blocks',
+			'Retry timing matters — what day-of-week and time patterns exist?',
+			'What recovery rate would merchants consider worth the effort?'
+		]
+	},
+	{
+		id: 'cs_1_10',
+		title: 'Figma Design Systems Interview Craft',
+		prompt:
+			"You're interviewing power users of Figma to understand why they invest time building design systems. An obvious question: 'Do you think a design system saves time?' You predict they'll say yes. How do you ask this differently to uncover what they actually do — not what they think they should say? Give me 3 alternative questions and explain the difference.",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 1,
+		secondarySkillIds: [5],
+		caseType: 'discovery_plan',
+		rubricDimensionIds: ['r1d2', 'r1d1', 'r1d3'],
+		hints: [
+			'Story-based questions anchor in specific past events',
+			'Ask about the last time they updated the system, not whether they find it useful',
+			'Watch for the gap between aspirational answers and actual behavior'
+		]
+	},
+	{
+		id: 'cs_1_11',
+		title: 'Duolingo Dropout Interview Design',
+		prompt:
+			"You're interviewing people who abandoned Duolingo after 2 weeks. You ask: 'What made you stop using Duolingo?' Most say 'I was too busy.' But you suspect that's rationalization — they got bored or found it too hard. How would you structure the interview to get past the surface answer? Walk me through your questioning sequence.",
+		context: 'B2C',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 1,
+		secondarySkillIds: [5],
+		caseType: 'discovery_plan',
+		rubricDimensionIds: ['r1d2', 'r1d1', 'r1d3'],
+		hints: [
+			'Ask them to walk through their last session in detail',
+			'Probe what they did instead of Duolingo — reveals true priority',
+			'Timeline reconstruction beats direct why questions'
+		]
+	},
 
 	// ── Skill 2: Product Sense & Judgment ────────────────────────────────
 
@@ -184,6 +292,78 @@ export const caseStudies: CaseStudy[] = [
 			'This is a portfolio allocation problem, not a feature prioritization problem',
 			'Consider the stage of each product: protect, grow, explore',
 			"Your judgment about each PM's judgment matters here"
+		]
+	},
+	{
+		id: 'cs_2_6',
+		title: 'AI Resume Screener Risk Evaluation',
+		prompt:
+			"A startup pitches you an idea: 'AI-powered resume screening that removes bias by anonymizing candidate names and demographics.' Evaluate this idea on Cagan's four risks: (1) Customer desirability, (2) Business viability, (3) Feasibility, (4) Usability. What's the highest risk, and what's a false assumption baked into this pitch?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 2,
+		secondarySkillIds: [3],
+		caseType: 'trade_off',
+		rubricDimensionIds: ['r2d1', 'r2d2', 'r2d4'],
+		hints: [
+			'Anonymization doesn\'t remove all bias signals — job titles, schools, locations leak demographics',
+			'Who is the buyer vs. the user? HR leaders buy, recruiters use',
+			'Feasibility risk: does the AI actually reduce bias or just hide it?'
+		]
+	},
+	{
+		id: 'cs_2_7',
+		title: 'Gmail AI Auto-Reply Evaluation',
+		prompt:
+			"Your team proposes: 'Add AI-powered auto-reply to Gmail so users can write emails faster.' You're skeptical. Walk through your evaluation: (1) What user need are we solving? (2) What are the risks? (3) How do Cagan's four risks apply? (4) What evidence would you need before committing engineering?",
+		context: 'B2C',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 2,
+		secondarySkillIds: [1],
+		caseType: 'trade_off',
+		rubricDimensionIds: ['r2d1', 'r2d2', 'r2d4'],
+		hints: [
+			'Speed is a feature but authenticity is the cost',
+			'Consider the embarrassment risk of a wrong auto-reply',
+			'Gmail Smart Reply already exists — what gap remains?'
+		]
+	},
+	{
+		id: 'cs_2_8',
+		title: 'Slack Paid-Only Model Risk',
+		prompt:
+			"Slack is considering: 'Paid only mode — no free tier, charge all teams $X/month.' On the surface, this increases revenue. What are the hidden risks you'd evaluate before pitching this to leadership? What signals would suggest this is a bad idea?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 2,
+		secondarySkillIds: [3, 8],
+		caseType: 'trade_off',
+		rubricDimensionIds: ['r2d1', 'r2d2', 'r2d4'],
+		hints: [
+			'Free tier drives viral adoption — what happens to the growth loop?',
+			'Competitive response: Teams is bundled with Office 365',
+			'How many current paying teams started on free?'
+		]
+	},
+	{
+		id: 'cs_2_9',
+		title: 'White-Label SaaS Risk Assessment',
+		prompt:
+			"A B2B SaaS founder proposes: 'White-label our product for agencies so they can sell it under their own brand.' Quick reaction: What's the core assumption here, and what's one way this could hurt the core business? How would you evaluate this idea rigorously?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 2,
+		secondarySkillIds: [3],
+		caseType: 'trade_off',
+		rubricDimensionIds: ['r2d1', 'r2d2', 'r2d3'],
+		hints: [
+			'White-labeling removes your brand from the end user relationship',
+			'Agency incentives may diverge from your product direction',
+			'Support burden: who handles bugs — you or the agency?'
 		]
 	},
 
@@ -279,6 +459,60 @@ export const caseStudies: CaseStudy[] = [
 			'Roger Martin: Where will you play? How will you win?'
 		]
 	},
+	{
+		id: 'cs_3_6',
+		title: 'SMB vs Enterprise Strategy Defense',
+		prompt:
+			"You're the PM for an enterprise SaaS product. Your strategy: Focus on SMB (10-50 person teams) because they have faster buying cycles and higher NPS. The CEO disagrees: 'Why not go upmarket? Enterprise customers are worth 10x more.' You have data showing enterprise deals take 9 months while SMB deals close in 6 weeks. Walk me through how you'd defend your thesis in a board meeting, including what evidence would change your mind.",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 3,
+		secondarySkillIds: [2, 4],
+		caseType: 'stakeholder_influence',
+		rubricDimensionIds: ['r3d4', 'r3d1', 'r2d4'],
+		hints: [
+			'Revenue per customer vs. total revenue are different arguments',
+			'What would the SMB CAC payback period need to be to beat enterprise?',
+			'Name the conditions under which you would pivot upmarket'
+		]
+	},
+	{
+		id: 'cs_3_7',
+		title: 'Notion Database vs Docs Strategy',
+		prompt:
+			"Your product strategy for Notion: Invest heavily in database and relational features, because power users who build databases have 5x higher retention. Your Head of Sales pushes back: 'Our enterprise sales team wants you to focus on document collaboration instead — that's what they hear in deals.' You have telemetry showing 60% of power users use Databases, but only 20% use collaborative docs. How do you navigate this disagreement?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 3,
+		secondarySkillIds: [4],
+		caseType: 'stakeholder_influence',
+		rubricDimensionIds: ['r3d4', 'r4d3', 'r3d1'],
+		hints: [
+			'Sales hears from prospects, telemetry shows actual users — both are valid',
+			'Retention driver vs. acquisition driver are different bets',
+			'Is the sales team selling to power users or a different persona?'
+		]
+	},
+	{
+		id: 'cs_3_8',
+		title: 'Figma Mobile Strategy Defense',
+		prompt:
+			"You're the PM for Figma's mobile app. Your strategy: Don't build mobile-first design tools; instead, build mobile view-and-comment. The VP of Product says: 'Apple and Google are pushing on-device ML. We should build mobile design tools with AI.' You disagree — you think the friction of designing on mobile makes it pointless. How do you have this conversation? What would need to change for you to agree with the VP?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 3,
+		secondarySkillIds: [2, 8],
+		caseType: 'stakeholder_influence',
+		rubricDimensionIds: ['r3d4', 'r3d1', 'r2d4'],
+		hints: [
+			'Separate the technology trend from the user need',
+			'What evidence of mobile design demand would change your mind?',
+			'Consider whether AI changes the input problem (tiny screen) or not'
+		]
+	},
 
 	// ── Skill 4: Business Acumen & Viability ─────────────────────────────
 
@@ -372,6 +606,78 @@ export const caseStudies: CaseStudy[] = [
 			'Model revenue predictability vs. growth rate trade-off'
 		]
 	},
+	{
+		id: 'cs_4_6',
+		title: 'Usage-Based Pricing Viability',
+		prompt:
+			"You're the PM for a B2B SaaS platform. Your team proposes a new 'usage-based pricing' model instead of the current per-seat model. Usage gets metered via API calls. Before you greenlight engineering, walk me through every viability risk you need to validate with legal, sales, finance, and ops. Which one is the biggest blocker?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 4,
+		secondarySkillIds: [2, 3],
+		caseType: 'trade_off',
+		rubricDimensionIds: ['r4d2', 'r2d2', 'r4d1'],
+		hints: [
+			'Sales compensation changes when deals are usage-based — sales team may resist',
+			'Finance needs predictable revenue forecasting — usage is inherently variable',
+			'Legal: what happens when a customer disputes metering accuracy?'
+		]
+	},
+	{
+		id: 'cs_4_7',
+		title: 'Notion API Rate Limit Viability',
+		prompt:
+			"Notion wants to launch an 'API Rate Limits' tier for the free plan — capping API calls at 100/hour to reduce infrastructure costs. Write the viability assessment covering sales impact, legal implications (terms of service updates), operations (billing and metering), and customer support escalations. What's your go/no-go recommendation?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 4,
+		secondarySkillIds: [3],
+		caseType: 'stakeholder_influence',
+		rubricDimensionIds: ['r4d2', 'r4d3', 'r3d2'],
+		hints: [
+			'Free tier API users may include integration partners — breaking them has ecosystem cost',
+			'How do you grandfather existing users vs. applying limits retroactively?',
+			'What percentage of free users actually exceed 100 calls/hour?'
+		]
+	},
+	{
+		id: 'cs_4_8',
+		title: 'Dropbox HIPAA Compliance Viability',
+		prompt:
+			"Dropbox is considering HIPAA compliance certification for the Enterprise tier. This requires new audit controls, encrypted audit logs, and monthly compliance reviews. Before committing resources, what viability questions must you answer with legal, sales (enterprise sales team), and ops? What's the hidden cost no one's talking about?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 4,
+		secondarySkillIds: [3, 6],
+		caseType: 'trade_off',
+		rubricDimensionIds: ['r4d2', 'r4d3', 'r6d2'],
+		hints: [
+			'HIPAA compliance is ongoing, not a one-time certification',
+			'What happens when an audit fails — what is the liability exposure?',
+			'How many enterprise prospects have explicitly asked for HIPAA?'
+		]
+	},
+	{
+		id: 'cs_4_9',
+		title: 'Google Meet External Recording Viability',
+		prompt:
+			"Google Meet is launching a new 'External Recording' feature that allows hosts to record meetings and share them with non-participants. What legal risks (consent, jurisdiction, GDPR, CCPA), sales implications (competitive positioning vs Zoom), and ops challenges (storage, compliance proof) must you validate before shipping? How do you prioritize risk?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 4,
+		secondarySkillIds: [6],
+		caseType: 'go_to_market',
+		rubricDimensionIds: ['r4d2', 'r4d3', 'r6d3'],
+		hints: [
+			'Recording consent laws vary by jurisdiction — two-party vs. one-party states',
+			'Zoom already has this — what differentiation does Google Meet add?',
+			'Storage cost at scale for video is significant — who pays?'
+		]
+	},
 
 	// ── Skill 5: Discovery Practice & Methods ──────────────────────────
 
@@ -463,6 +769,258 @@ export const caseStudies: CaseStudy[] = [
 			'Start with the 2 teams already doing it — make them showcases',
 			"Don't mandate — create pull by showing results",
 			'Torres: discovery is a habit, not a phase — design weekly rituals'
+		]
+	},
+	{
+		id: 'cs_5_6',
+		title: 'Adobe Intelligent Cropping Trio Discovery',
+		prompt:
+			"You're running discovery for a new 'Intelligent Cropping' feature in Adobe Photoshop. The typical PM workflow is: interview users → write requirements → hand to design/eng. Describe an alternative approach where the PM, lead designer, and tech lead work together from day one. What changes? When do you split?",
+		context: 'B2C',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 5,
+		secondarySkillIds: [1, 4],
+		caseType: 'discovery_plan',
+		rubricDimensionIds: ['r5d2', 'r5d1', 'r5d3'],
+		hints: [
+			'Trio discovery means shared understanding, not shared tasks',
+			'When should the engineer be in the room vs. building a prototype?',
+			'What decisions require all three perspectives vs. just one?'
+		]
+	},
+	{
+		id: 'cs_5_7',
+		title: 'Stripe Onboarding Trio Discovery',
+		prompt:
+			"Stripe is redesigning the merchant onboarding flow. Historically, PM owns the user journey, design owns the UX, and eng owns feasibility. You want to restructure this as a true trio. Walk me through: (1) What discovery happens together? (2) When does each person own a decision? (3) How do you prevent deadlock?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 5,
+		secondarySkillIds: [1, 4],
+		caseType: 'discovery_plan',
+		rubricDimensionIds: ['r5d2', 'r5d3', 'r4d3'],
+		hints: [
+			'Customer interviews should include all three — different ears hear different things',
+			'Deadlock prevention: who has final call on what?',
+			'Feasibility constraints discovered early reshape the solution space'
+		]
+	},
+	{
+		id: 'cs_5_8',
+		title: 'Figma Smart Suggestions Trio Validation',
+		prompt:
+			"You're designing a new 'Smart Suggestions' feature for Figma that recommends design components based on project context. Your PM instinct says 'users need smarter recommendations.' But the designer worries about cognitive overload, and the eng lead says 'that's a 3-month ML project.' Describe how you'd approach discovery as a trio to validate whether this is worth the investment. What experiments do you run together?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 5,
+		secondarySkillIds: [1, 4],
+		caseType: 'discovery_plan',
+		rubricDimensionIds: ['r5d2', 'r5d4', 'r5d3'],
+		hints: [
+			'Each trio member has a different concern — address all three before committing',
+			'Can you test the value without the ML model (Wizard of Oz)?',
+			'What is the minimum evidence threshold for a 3-month investment?'
+		]
+	},
+	{
+		id: 'cs_5_9',
+		title: 'Fintech Transaction Confirmation Trio',
+		prompt:
+			"You're the PM for a fintech app redesigning the transaction confirmation screen. A user complained: 'I can't tell if I sent money to the right person.' The designer proposes a new layout; the engineer says it'll require backend changes. Describe your discovery process with the trio: How do you avoid the PM dictating the solution? When is each person the decision-maker?",
+		context: 'B2C',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 5,
+		secondarySkillIds: [1, 4],
+		caseType: 'discovery_plan',
+		rubricDimensionIds: ['r5d2', 'r5d1', 'r5d3'],
+		hints: [
+			'One complaint may represent a pattern — validate the scope first',
+			'Backend changes mean the solution space is constrained — engineer input early',
+			'Who decides the layout: designer or PM? What about the data display?'
+		]
+	},
+	{
+		id: 'cs_5_10',
+		title: 'Duolingo Reminder Notification Experiment',
+		prompt:
+			"At Duolingo, you're testing a hypothesis: 'Mobile learners will complete lessons more consistently if we send a reminder notification 24 hours after their last lesson.' You have three experiment options: (1) A/B test (50% on/off), (2) Time-series holdout (users in months 1-2 vs 3-4), (3) Quasi-experiment (cohort comparison). Which experiment type answers the question best? Why not the others?",
+		context: 'B2C',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 5,
+		secondarySkillIds: [2],
+		caseType: 'estimation',
+		rubricDimensionIds: ['r5d4', 'r5d3', 'r2d2'],
+		hints: [
+			'Time-series designs confound with seasonality and product changes',
+			'Cohort comparisons introduce selection bias unless carefully matched',
+			'What is the unit of randomization — user or device?'
+		]
+	},
+	{
+		id: 'cs_5_11',
+		title: 'Notion Database Relations Experiment Design',
+		prompt:
+			"Notion is testing: 'Users with more than 5 databases will adopt the new Database Relations feature.' The challenge: Relations are only useful when you have multiple linked databases, so the most engaged power users (who'd benefit) will adopt quickly regardless of marketing. Your team suggests a randomized controlled trial. Is that the right experiment? What's the hidden risk in experiment design here?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 5,
+		secondarySkillIds: [2],
+		caseType: 'trade_off',
+		rubricDimensionIds: ['r5d4', 'r2d2', 'r5d3'],
+		hints: [
+			'Self-selection bias: power users adopt features regardless of treatment',
+			'What would a negative result actually tell you?',
+			'Consider whether you are testing adoption or value'
+		]
+	},
+	{
+		id: 'cs_5_12',
+		title: 'Slack Workflows Retention Experiment',
+		prompt:
+			"Slack wants to test: 'Teams that use Slack Workflows (automation) will have higher retention.' But Workflows are opt-in and skew toward power users who are already engaged. An A/B test will conflate selection bias with causal impact. Design an experiment that separates these effects. What type of test would you use?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 5,
+		secondarySkillIds: [2],
+		caseType: 'metric_diagnosis',
+		rubricDimensionIds: ['r5d4', 'r2d3', 'r5d3'],
+		hints: [
+			'Encouragement design: randomize access to Workflows, not Workflows usage',
+			'Instrumental variable approaches separate selection from treatment',
+			'What is the counterfactual for a power user who would have stayed anyway?'
+		]
+	},
+	{
+		id: 'cs_5_13',
+		title: 'Stripe Checkout A/B Test Stratification',
+		prompt:
+			"You're testing a new checkout flow at Stripe: 'A one-page checkout increases conversion rate vs a two-step checkout.' You plan a standard A/B test (50/50 split). But you know: (1) Conversion varies wildly by device (mobile vs desktop), (2) International customers convert at 60% the rate of US customers. How does this change your experiment design? What's the right approach?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 5,
+		secondarySkillIds: [2, 7],
+		caseType: 'estimation',
+		rubricDimensionIds: ['r5d4', 'r5d3', 'r7d4'],
+		hints: [
+			'Stratified randomization ensures balanced groups across known confounders',
+			'Consider interaction effects: mobile + international may behave differently',
+			'What sample size do you need per stratum for statistical power?'
+		]
+	},
+	{
+		id: 'cs_5_14',
+		title: 'Gmail Smart Inbox Discovery',
+		prompt:
+			"You're designing a new 'Smart Inbox' for Gmail that filters low-priority emails (newsletters, promotions) into a separate folder. Walk me through your discovery process: (1) What is the core assumption you need to validate? (2) How would you talk to users? (3) What would you prototype? (4) What's your success metric?",
+		context: 'B2C',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 5,
+		secondarySkillIds: [1],
+		caseType: 'discovery_plan',
+		rubricDimensionIds: ['r5d1', 'r5d2', 'r5d3'],
+		hints: [
+			'Gmail already has tabs and filters — what problem remains unsolved?',
+			'False positives (hiding important email) have high cost',
+			'What does success look like: fewer unread emails or faster response time?'
+		]
+	},
+	{
+		id: 'cs_5_15',
+		title: 'Dropbox Anti-Piracy Watermark Discovery',
+		prompt:
+			"Dropbox is exploring a new anti-piracy feature that watermarks all downloaded files. Before you build it, what's the discovery process? Walk through: user interviews, value hypothesis, implementation risks, and how you'd test the idea without building the full feature.",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 5,
+		secondarySkillIds: [1, 4],
+		caseType: 'discovery_plan',
+		rubricDimensionIds: ['r5d1', 'r5d2', 'r5d4'],
+		hints: [
+			'Who wants this: the file owner or the organization admin?',
+			'Watermarking changes the user experience of every download — adoption risk',
+			'Fake door test: offer watermark toggle and measure clicks before building'
+		]
+	},
+	{
+		id: 'cs_5_16',
+		title: 'Spotify Collaborative Playlists Discovery',
+		prompt:
+			"You're the PM for Spotify and you're considering adding a 'Collaborative Playlists' feature where multiple users can add songs in real-time. Describe your discovery process. Where would your uncertainty be highest? How would you de-risk the biggest assumption before engineering begins?",
+		context: 'B2C',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 5,
+		secondarySkillIds: [1],
+		caseType: 'discovery_plan',
+		rubricDimensionIds: ['r5d1', 'r5d3', 'r5d4'],
+		hints: [
+			'Collaborative playlists already exist in basic form — what is new here?',
+			'Real-time collaboration on playlists may not match how people discover music',
+			'What is the smallest version you could ship to test demand?'
+		]
+	},
+	{
+		id: 'cs_5_17',
+		title: 'B2B Dashboard Favorites Discovery',
+		prompt:
+			"You're the PM for a B2B analytics tool redesigning the dashboard interface. Your hypothesis: 'Most users only look at 3-5 metrics daily.' Your team proposes a 'favorites' feature to surface these. Walk through your discovery: What's the quickest way to validate this assumption? What could go wrong with your hypothesis?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 5,
+		secondarySkillIds: [1],
+		caseType: 'discovery_plan',
+		rubricDimensionIds: ['r5d1', 'r5d3', 'r5d4'],
+		hints: [
+			'Check existing analytics: do users actually view only 3-5 metrics?',
+			'Favorites assumes users know what they want — what if they browse?',
+			'What is the cost of being wrong: building a feature nobody uses?'
+		]
+	},
+	{
+		id: 'cs_5_18',
+		title: 'Figma Component Versioning Discovery',
+		prompt:
+			"Figma is considering a 'Component Versioning' feature so teams can track and rollback changes to shared components. Describe the discovery process: (1) Who would you interview? (2) What's the core user need you're solving for? (3) How would you prototype this? (4) How would you measure success?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 5,
+		secondarySkillIds: [1, 4],
+		caseType: 'discovery_plan',
+		rubricDimensionIds: ['r5d1', 'r5d2', 'r5d3'],
+		hints: [
+			'Interview design system maintainers, not just designers',
+			'Versioning is a git concept — does it translate to design workflows?',
+			'What is the real cost of a bad component update today?'
+		]
+	},
+	{
+		id: 'cs_5_19',
+		title: 'Shopify Seller Analytics Discovery',
+		prompt:
+			"You're exploring a 'Seller Analytics' dashboard for Shopify sellers. You have a hypothesis: 'Sellers are most interested in product-level profitability (revenue - costs), not just sales volume.' How would you design discovery to test this? What's the riskiest assumption to validate? What's your fastest path to evidence?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 5,
+		secondarySkillIds: [1, 2],
+		caseType: 'discovery_plan',
+		rubricDimensionIds: ['r5d1', 'r5d3', 'r5d4'],
+		hints: [
+			'Sellers may not track costs accurately — data quality is a blocker',
+			'Fastest evidence: survey existing sellers on what metrics they check daily',
+			'What does a seller actually do differently when they see profitability data?'
 		]
 	},
 
@@ -724,6 +1282,204 @@ export const caseStudies: CaseStudy[] = [
 			'Regulation creates both opportunities (new data access) and threats (incumbents can now offer your features)',
 			'18-month runway means you need to start building NOW',
 			'Consider: who wins in open banking — aggregators, specialists, or banks themselves?'
+		]
+	},
+	{
+		id: 'cs_8_5',
+		title: 'Linear vs Jira Competitive Analysis',
+		prompt:
+			"You're the PM for Linear, a project management tool. Jira is the incumbent. Asana and Monday.com are growth challengers. Over the last 18 months, what is Jira doing strategically that Linear needs to notice? What are their likely next 3 moves? How does this shape Linear's roadmap strategy?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 8,
+		secondarySkillIds: [3],
+		caseType: 'go_to_market',
+		rubricDimensionIds: ['r8d1', 'r8d2', 'r3d1'],
+		hints: [
+			'Jira is investing in AI and automation — what does that mean for Linear?',
+			'Linear wins on speed and UX — is that defensible long-term?',
+			'What market segment is Jira least focused on?'
+		]
+	},
+	{
+		id: 'cs_8_6',
+		title: 'Payment Processor Challenger Strategy',
+		prompt:
+			"Stripe and Adyen are the two largest payment processors for online businesses. You're the PM for a challenger (like Wise or Checkout.com). What is Stripe doing right in product that makes them hard to displace? What's the one product weakness Adyen has that you could exploit? How would you position against both?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 8,
+		secondarySkillIds: [3],
+		caseType: 'go_to_market',
+		rubricDimensionIds: ['r8d1', 'r8d4', 'r3d2'],
+		hints: [
+			'Stripe wins on developer experience — can you out-DX Stripe?',
+			'Adyen is enterprise-focused — where does that leave mid-market?',
+			'Payments is a trust business — what builds trust faster than brand?'
+		]
+	},
+	{
+		id: 'cs_8_7',
+		title: 'Slack Competitive Moat Analysis',
+		prompt:
+			"You're the PM for Slack. Microsoft Teams is free, integrated with Office 365, and targets enterprises. Discord is free, lightly moderated, targets communities and gaming. Based on product strategy, what is Slack's sustainable competitive advantage — and what should Slack do to maintain it?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 8,
+		secondarySkillIds: [3],
+		caseType: 'go_to_market',
+		rubricDimensionIds: ['r8d1', 'r8d2', 'r8d4'],
+		hints: [
+			'Slack Connect (cross-company channels) is a unique moat — why?',
+			'Teams bundles; Slack must justify standalone cost — how?',
+			'What user segment will never switch from Slack to Teams?'
+		]
+	},
+	{
+		id: 'cs_8_8',
+		title: 'Figma Positioning vs Alternatives',
+		prompt:
+			"Figma's positioning: 'The collaborative design tool for teams.' But Adobe XD (free), Canva (ease of use), and Penpot (open source) all solve design. How is Figma's positioning different from each, and what product features protect that positioning? What is Figma not trying to be?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 8,
+		secondarySkillIds: [3],
+		caseType: 'go_to_market',
+		rubricDimensionIds: ['r8d4', 'r8d1', 'r3d2'],
+		hints: [
+			'Figma is not trying to be Canva — different user, different job',
+			'Multiplayer is the moat — single-player design tools can\'t replicate it easily',
+			'What would Figma need to do if Penpot achieved feature parity?'
+		]
+	},
+	{
+		id: 'cs_8_9',
+		title: 'Notion Analytics Positioning',
+		prompt:
+			"Notion wants to expand to analytics (currently dominated by Tableau, Looker). What's Notion's positioning advantage vs these incumbents? What would have to be true about Notion's product for 'Notion for Analytics' to be credible? What's the risk of this positioning?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 8,
+		secondarySkillIds: [3],
+		caseType: 'go_to_market',
+		rubricDimensionIds: ['r8d4', 'r8d2', 'r3d2'],
+		hints: [
+			'Notion is easy to use but analytics requires data connections — different problem',
+			'Tableau users are data analysts; Notion users are PMs and designers — different persona',
+			'What is the minimum data capability to be taken seriously?'
+		]
+	},
+	{
+		id: 'cs_8_10',
+		title: 'Slack-First Support Tool Positioning',
+		prompt:
+			"You're the PM for a startup offering 'Slack for customer support' (like Zendesk but simpler, cheaper, Slack-native). Your positioning: 'Slack-first customer support, not email-first.' How is this different from the market's current positioning? What product bets must you make to own this positioning? What's one way you could fail at it?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 8,
+		secondarySkillIds: [3],
+		caseType: 'go_to_market',
+		rubricDimensionIds: ['r8d4', 'r3d2', 'r8d1'],
+		hints: [
+			'Slack-native means your product lives where the team already works',
+			'Risk: Slack itself could build this — platform dependency',
+			'What happens when customers outgrow Slack-based support?'
+		]
+	},
+	{
+		id: 'cs_8_11',
+		title: 'Vertical Payment Processor Strategy',
+		prompt:
+			"The payment processor market is dominated by Stripe (online), Square (in-person), and PayPal (legacy). If you were building a payment processor for a specific vertical (e.g., SaaS subscriptions, freelance platforms, B2B invoicing), which would you choose and why? What's the competitive play?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 8,
+		secondarySkillIds: [3],
+		caseType: 'go_to_market',
+		rubricDimensionIds: ['r8d1', 'r8d4', 'r3d1'],
+		hints: [
+			'Vertical specialization means deeper integration — what does that look like?',
+			'Stripe Billing already targets SaaS — how do you differentiate?',
+			'What vertical has the worst existing payment experience?'
+		]
+	},
+	{
+		id: 'cs_8_12',
+		title: 'Linear Default PM Tool Strategy',
+		prompt:
+			"The project management market has Asana, Monday.com, and Jira. Linear is growing fast. What is Linear's strategy, and what would have to change in the market for them to become the default PM tool for startups instead of Jira?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 8,
+		secondarySkillIds: [3],
+		caseType: 'go_to_market',
+		rubricDimensionIds: ['r8d1', 'r8d2', 'r3d1'],
+		hints: [
+			'Linear is already default for many startups — what market shift made that possible?',
+			'Jira wins on customization; Linear wins on opinionation — which scales better?',
+			'What happens when Linear startups grow into enterprises?'
+		]
+	},
+	{
+		id: 'cs_8_13',
+		title: 'Documentation Tool Market Position',
+		prompt:
+			"The documentation tool market includes Notion, Confluence, Docs, and specialized tools like GitBook. Where is the most defensible market position and why? If you were starting a documentation startup today, what niche would you own?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 8,
+		secondarySkillIds: [3],
+		caseType: 'go_to_market',
+		rubricDimensionIds: ['r8d1', 'r8d4', 'r3d1'],
+		hints: [
+			'Documentation for developers vs. documentation for teams are different markets',
+			'Notion is general-purpose; GitBook is developer-focused — where is the gap?',
+			'What makes documentation tools sticky — content lock-in or workflow integration?'
+		]
+	},
+	{
+		id: 'cs_8_14',
+		title: 'Zoom Long-Term Competitive Threat',
+		prompt:
+			"Video conferencing market: Zoom dominates, but Microsoft Teams is growing via Office 365 bundling, and Google Meet is free. What's the long-term competitive threat to Zoom? What would Zoom need to do to maintain leadership in 2027?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 8,
+		secondarySkillIds: [3],
+		caseType: 'go_to_market',
+		rubricDimensionIds: ['r8d1', 'r8d2', 'r8d4'],
+		hints: [
+			'Bundling is the biggest threat — meetings are a feature, not a product',
+			'Zoom is expanding into platform (Zoom Phone, Zoom Rooms) — is that the right bet?',
+			'What user segment chooses Zoom over free alternatives and why?'
+		]
+	},
+	{
+		id: 'cs_8_15',
+		title: 'Figma Design Tool Moat',
+		prompt:
+			"The design tool market: Figma is the leader but has competitors (Adobe XD, Penpot, Sketch). Based on product strategy, what is Figma's most defensible moat? What would have to happen for a competitor to displace them?",
+		context: 'B2B',
+		difficulty: 'staff',
+		timeLimit: 45,
+		primarySkillId: 8,
+		secondarySkillIds: [3],
+		caseType: 'go_to_market',
+		rubricDimensionIds: ['r8d1', 'r8d2', 'r8d3'],
+		hints: [
+			'Network effects in design: teams adopt together, not individually',
+			'Plugin ecosystem creates switching costs — how strong are they?',
+			'What would an open-source Figma clone need to achieve parity?'
 		]
 	},
 
